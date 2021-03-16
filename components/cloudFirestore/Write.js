@@ -1,13 +1,15 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { useUser } from '../../firebase/useUser'
 
 const WriteToCloudFirestore = () => {
+    const { user } = useUser()
     const sendData = () => {
         try {
             firebase
                 .firestore()
                 .collection('myCollection')
-                .doc('my_document') // leave as .doc() for a random unique doc name to be assigned
+                .doc(user.id) // leave as .doc() for a random unique doc name to be assigned
                 .set({
                     string_data: 'Benjamin Carlson',
                     number_data: 2,

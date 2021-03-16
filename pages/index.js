@@ -1,17 +1,28 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import firebase from '../firebase/initFirebase'
 import WriteToCloudFirestore from '../components/cloudFirestore/Write'
 import ReadDataFromCloudFirestore from '../components/cloudFirestore/Read'
-
-firebase() // initialize firebase
+import { useUser } from '../firebase/useUser'
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
+  const { user, logout } = useUser()
 
-      <WriteToCloudFirestore />
-      <ReadDataFromCloudFirestore />
+  if (user) {
+    return (
+      <div>
+        <h1>{user.name}</h1>
+        <h3>{user.email}</h3>
+        {user.profilePic ? <image src={user.profilePic} height={50} width={50}></image> : <p>No profile pic</p>}
+        <WriteToCloudFirestore />
+        <ReadDataFromCloudFirestore />
+        <button onClick={() => logout()}>Log Out</button>
+      </div>
+    )
+  }
+
+  else return (
+    <div className={styles.container}>
+      <p><a href="/auth">Log In!</a></p>
 
       <Head>
         <title>Create Next App</title>
