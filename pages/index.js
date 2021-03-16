@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import WriteToCloudFirestore from '../components/cloudFirestore/Write'
 import ReadDataFromCloudFirestore from '../components/cloudFirestore/Read'
 import { useUser } from '../firebase/useUser'
+import Counter from '../components/realtimeDatabase/Counter'
 
 export default function Home() {
   const { user, logout } = useUser()
@@ -15,6 +16,7 @@ export default function Home() {
         {user.profilePic ? <image src={user.profilePic} height={50} width={50}></image> : <p>No profile pic</p>}
         <WriteToCloudFirestore />
         <ReadDataFromCloudFirestore />
+        <Counter id={user.id} />  
         <button onClick={() => logout()}>Log Out</button>
       </div>
     )
