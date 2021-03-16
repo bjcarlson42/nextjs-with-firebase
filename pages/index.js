@@ -4,19 +4,21 @@ import WriteToCloudFirestore from '../components/cloudFirestore/Write'
 import ReadDataFromCloudFirestore from '../components/cloudFirestore/Read'
 import { useUser } from '../firebase/useUser'
 import Counter from '../components/realtimeDatabase/Counter'
+import UploadFile from '../components/storage/UploadFile'
 
 export default function Home() {
   const { user, logout } = useUser()
 
   if (user) {
     return (
-      <div>
+      <div className={styles.container}>
         <h1>{user.name}</h1>
         <h3>{user.email}</h3>
         {user.profilePic ? <image src={user.profilePic} height={50} width={50}></image> : <p>No profile pic</p>}
         <WriteToCloudFirestore />
         <ReadDataFromCloudFirestore />
-        <Counter id={user.id} />  
+        <Counter id={user.id} />
+        <UploadFile />
         <button onClick={() => logout()}>Log Out</button>
       </div>
     )
