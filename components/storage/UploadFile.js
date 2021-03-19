@@ -36,14 +36,15 @@ const UploadFile = () => {
     }
 
     return (
-        <>
-            <progress value={value} max="100"></progress>
+        <div style={{ margin: '5px 0' }}>
+            <progress value={value} max="100" style={{width: '100%'}}></progress>
+            <br />
             <input
                 type="file"
                 onChange={uploadFile}
                 ref={inputEl}
             />
-        </>
+        </div>
     )
 }
 
