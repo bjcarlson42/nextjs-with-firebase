@@ -15,7 +15,7 @@ const firebaseAuthConfig = {
     signInOptions: [
         {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            requireDisplayName: false,
+            requireDisplayName: true,
         },
         // add additional auth flows below
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,

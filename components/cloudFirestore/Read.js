@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { useUser } from '../../firebase/useUser'
+import Button from 'react-bootstrap/Button'
 
 const ReadDataFromCloudFirestore = () => {
     const { user } = useUser()
@@ -21,7 +22,9 @@ const ReadDataFromCloudFirestore = () => {
     }
 
     return (
-        <button onClick={readData}>Read Data From Cloud Firestore</button>
+        <div style={{ margin: '5px 0' }}>
+            <Button onClick={readData} style={{ width: '100%' }}>Read Data From Cloud Firestore</Button>
+        </div>
     )
 }
 
