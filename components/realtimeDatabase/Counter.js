@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import firebase from 'firebase/app'
 import 'firebase/database'
+import { realDB } from '@/lib/firebase/initFirebase'
+import { ref, onValue, off } from "firebase/database"
 import Button from 'react-bootstrap/Button'
 
 const Counter = ({ id }) => {
@@ -9,13 +10,15 @@ const Counter = ({ id }) => {
         const onCountIncrease = (count) => setCount(count.val())
 
         const fetchData = async () => {
-            firebase.database().ref('counts').child(id).on('value', onCountIncrease)
+            const countRef = ref(realDB, "counts/" + id)
+            onValue(countRef, onCountIncrease)
         }
 
         fetchData()
 
         return () => {
-            firebase.database().ref('counts').child(id).off('value', onCountIncrease)
+            const countRef = ref(realDB, "counts/" + id)
+            off(countRef, "value", onCountIncrease)
         }
     }, [id])
 

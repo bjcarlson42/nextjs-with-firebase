@@ -1,19 +1,18 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import { useUser } from '../../firebase/useUser'
+import { db } from '@/lib/firebase/initFirebase'
+import { doc, getDoc } from "firebase/firestore"
+import { useUser } from '@/lib/firebase/useUser'
 import Button from 'react-bootstrap/Button'
 
 const ReadDataFromCloudFirestore = () => {
     const { user } = useUser()
-    const readData = () => {
+    const readData = async () => {
         try {
-            firebase
-                .firestore()
-                .collection('myCollection')
-                .doc(user.id)
-                .onSnapshot(function (doc) {
+            const userDoc = doc(db, "myCollection", user.id)
+            await getDoc(userDoc).then((doc) => {
+                if (doc.exists()) {
                     console.log(doc.data())
-                })
+                }
+            })
             alert('Data was successfully fetched from cloud firestore! Close this alert and check console for output.')
         } catch (error) {
             console.log(error)

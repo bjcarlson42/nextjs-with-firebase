@@ -1,12 +1,19 @@
-import initFirebase from '../../firebase/initFirebase'
+import { initFirebase } from '@/lib/firebase/initFirebase'
 import { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import { setUserCookie } from '../../firebase/userCookies'
-import { mapUserData } from '../../firebase/mapUserData'
+import {
+    getAuth,
+    GoogleAuthProvider,
+    TwitterAuthProvider,
+    GithubAuthProvider,
+    EmailAuthProvider
+} from "firebase/auth";
+import { setUserCookie } from '@/lib/firebase/userCookies'
+import { mapUserData } from '@/lib/firebase/mapUserData'
 
 initFirebase() // initialize firebase
+
+const auth = getAuth()
 
 const firebaseAuthConfig = {
     signInFlow: 'popup',
@@ -14,13 +21,13 @@ const firebaseAuthConfig = {
     // https://github.com/firebase/firebaseui-web#configure-oauth-providers
     signInOptions: [
         {
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            provider: EmailAuthProvider.PROVIDER_ID,
             requireDisplayName: true,
         },
         // add additional auth flows below
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        GoogleAuthProvider.PROVIDER_ID,
+        TwitterAuthProvider.PROVIDER_ID,
+        GithubAuthProvider.PROVIDER_ID,
     ],
     signInSuccessUrl: '/',
     credentialHelper: 'none',
@@ -46,7 +53,7 @@ const FirebaseAuth = () => {
             {renderAuth ? (
                 <StyledFirebaseAuth
                     uiConfig={firebaseAuthConfig}
-                    firebaseAuth={firebase.auth()}
+                    firebaseAuth={auth}
                 />
             ) : null}
         </div>
