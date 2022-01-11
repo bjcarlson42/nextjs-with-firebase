@@ -1,22 +1,26 @@
 // to learn how to download a file, get/use file metadata, delete files, and list files see https://firebase.google.com/docs/storage/web/start
-
 import { useRef, useState } from 'react'
-import firebase from 'firebase/app'
-import 'firebase/storage'
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+} from "firebase/storage";
+
+const storage = getStorage()
 
 const UploadFile = () => {
     const inputEl = useRef(null)
-    const [value, setValue] = useState(0)
+    let [value, setValue] = useState(0)
 
     function uploadFile() {
         // get file
         var file = inputEl.current.files[0]
 
         // create a storage ref
-        var storageRef = firebase.storage().ref('user_uploads/' + file.name)
+        const storageRef = ref(storage, "user_uploads" + file.name)
 
         // upload file
-        var task = storageRef.put(file)
+        const task = uploadBytesResumable(storageRef, file)
 
         // update progress bar
         task.on('state_change',
@@ -29,7 +33,7 @@ const UploadFile = () => {
                 alert(error)
             },
 
-            function compleete() {
+            function complete() {
                 alert('Uploaded to firebase storage successfully!')
             }
         )
@@ -37,7 +41,7 @@ const UploadFile = () => {
 
     return (
         <div style={{ margin: '5px 0' }}>
-            <progress value={value} max="100" style={{width: '100%'}}></progress>
+            <progress value={value} max="100" style={{ width: '100%' }}></progress>
             <br />
             <input
                 type="file"
