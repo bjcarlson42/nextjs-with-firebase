@@ -17,7 +17,7 @@ const UploadFile = () => {
         var file = inputEl.current.files[0]
 
         // create a storage ref
-        const storageRef = ref(storage, "user_uploads" + file.name)
+        const storageRef = ref(storage, "user_uploads/" + file.name)
 
         // upload file
         const task = uploadBytesResumable(storageRef, file)
